@@ -475,27 +475,11 @@ st.markdown(
         color: #b5762c !important;
         border-color: #b5762c !important;
     }
-    /* primary系ボタン（スタート/やり直す/表面へ）：用法バッジと同じ配色 */
+    /* primary系ボタン（スタート/やり直す/タップしてめくる/表面へ）：用法バッジと同じ配色 */
     .stButton > button[kind="primary"] {
         background: #ffe3b3 !important;
         color: #000000 !important;
         border: 3px solid #b5762c !important;
-    }
-
-    /* --- タップしてめくる（ヒント風の控えめなリンクボタン） --- */
-    .stButton > button[kind="tertiary"] {
-        border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        color: #4a3f2a !important;
-        opacity: 0.6;
-        font-size: 12px !important;
-        padding: 0.15rem 0 !important;
-    }
-    .stButton > button[kind="tertiary"]:hover {
-        opacity: 0.9;
-        transform: none;
-        box-shadow: none;
     }
 
     /* --- 進捗バー --- */
@@ -722,13 +706,11 @@ else:
 
     # コントロールボタン
     if not st.session_state.flipped:
-        if st.button("タップしてカードをめくる", type="tertiary", use_container_width=True):
+        if st.button("タップしてカードをめくる", type="primary", use_container_width=True):
             st.session_state.flipped = True
             st.rerun()
     else:
         st.markdown('<p class="base-text">できた？</p>', unsafe_allow_html=True)
-
-        col_flip, col_good, col_review = st.columns(3)
 
         def go_to_next(is_good):
             if is_good:
@@ -743,10 +725,7 @@ else:
             if st.session_state.index >= TOTAL:
                 st.session_state.finished = True
 
-        with col_flip:
-            if st.button("表面へ", type="primary", use_container_width=True):
-                st.session_state.flipped = False
-                st.rerun()
+        col_good, col_review = st.columns(2)
         with col_good:
             if st.button("できた", use_container_width=True):
                 go_to_next(True)
@@ -755,6 +734,10 @@ else:
             if st.button("まだ不安", use_container_width=True):
                 go_to_next(False)
                 st.rerun()
+
+        if st.button("表面へ", type="primary", use_container_width=True):
+            st.session_state.flipped = False
+            st.rerun()
 
     st.write("")
     st.divider()

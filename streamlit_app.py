@@ -296,24 +296,62 @@ st.markdown(
 
     html, body {
         background-color: #e9e4d8 !important;
+        height: 100%;
+        overflow: hidden;
     }
 
     .stApp {
         background-color: #e9e4d8;
+        height: 100vh;
+        overflow: hidden;
     }
 
-    /* --- スマホ画面風フレーム（アスペクト比 9:15） --- */
+    /* --- Streamlitの既定UI（ヘッダー・ハンバーガー・フッター）を隠してアプリ感を出す --- */
+    #MainMenu, header, footer, [data-testid="stToolbar"], [data-testid="stDecoration"],
+    [data-testid="stStatusWidget"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    .main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    /* --- スマホアプリ画面フレーム（アスペクト比 9:15固定） --- */
     .main .block-container {
-        max-width: 420px;
-        width: 92vw;
+        position: relative;
+        width: min(92vw, calc(62vh * 9 / 15));
         aspect-ratio: 9 / 15;
+        max-height: 92vh;
         overflow-y: auto;
-        margin: 20px auto !important;
+        overflow-x: hidden;
+        margin: 0 auto !important;
         background: #ffffff;
         border: 3px solid #2e2a20;
         border-radius: 34px;
         box-shadow: 0 18px 40px rgba(74, 63, 42, 0.35);
-        padding: 2.2rem 1.1rem 1rem !important;
+        padding: 2.4rem 1.1rem 1rem !important;
+    }
+
+    /* --- ノッチ --- */
+    .main .block-container::before {
+        content: "";
+        position: sticky;
+        display: block;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 34%;
+        height: 16px;
+        background: #2e2a20;
+        border-radius: 0 0 14px 14px;
+        margin-top: -2.4rem;
+        margin-bottom: 10px;
+        z-index: 50;
     }
 
     h1, h2, h3, .stCaption, p, span, div, label {
